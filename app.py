@@ -14,8 +14,10 @@ FF_DIM = 1024
 NUM_HEADS = 6
 
 # Load the tokenizer
-@st.cache(allow_output_mutation=True)
+@st.cache_resource
 def load_tokenizer():
+    # Assuming the tokenizer is saved as a separate file or part of the model
+    # Adjust this part according to how your tokenizer is saved
     tokenizer = tf.keras.models.load_model("image_captioning_model")
     tokenizer = tokenizer.layers[1]
     return tokenizer
@@ -163,7 +165,7 @@ class ImageCaptioningModel(tf.keras.Model):
         return x
 
 # Load the model
-@st.cache(allow_output_mutation=True)
+@st.cache_resource
 def load_model():
     with open("config_train.json") as json_file:
         model_config = json.load(json_file)
@@ -236,7 +238,7 @@ def main():
     uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
     if uploaded_file is not None:
         image = Image.open(uploaded_file)
-        st.image(image, caption='Uploaded Image.', use_column_width=True)
+        st.image(image, caption='Uploaded Image.', use_container_width=True)
         st.write("")
         st.write("Generating caption...")
 
