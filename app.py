@@ -17,7 +17,10 @@ NUM_HEADS = 6
 @st.cache_resource  # Use st.cache_resource for caching objects like models and tokenizers
 def load_tokenizer():
     # Load the tokenizer using TFSMLayer
-    tokenizer = tf.keras.layers.TFSMLayer("IMC/image_captioning_model", call_endpoint='serving_default')
+    # tokenizer = tf.keras.layers.TFSMLayer("IMC/image_captioning_model", call_endpoint='serving_default')
+    # return tokenizer
+    tokenizer = tf.keras.models.load_model("IMC/image_captioning_model")
+    tokenizer = tokenizer.layers[1]
     return tokenizer
 
 # Define the CNN model (from model.py)
