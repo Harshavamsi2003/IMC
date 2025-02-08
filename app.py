@@ -18,8 +18,9 @@ NUM_HEADS = 6
 def load_tokenizer():
     # Assuming the tokenizer is saved as a separate file or part of the model
     # Adjust this part according to how your tokenizer is saved
-    tokenizer = tf.keras.models.load_model("image_captioning_model")
-    tokenizer = tokenizer.layers[1]
+    tokenizer = TFSMLayer("image_captioning_model", call_endpoint='serving_default')
+    # tokenizer = tf.keras.models.load_model("image_captioning_model")
+    # tokenizer = tokenizer.layers[1]
     return tokenizer
 
 # Define the CNN model (from model.py)
