@@ -1,0 +1,7 @@
+streamlit
+tensorflow
+numpy
+Pillow
+python
+tensorflow-gpu
+h5py
