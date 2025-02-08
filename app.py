@@ -14,11 +14,10 @@ FF_DIM = 1024
 NUM_HEADS = 6
 
 # Load the tokenizer
-@st.cache_resource  # Use st.cache_resource for caching objects like models and tokenizers
+@st.cache(allow_output_mutation=True)
 def load_tokenizer():
-    # Load the tokenizer using tf.keras.models.load_model
-    tokenizer = tf.keras.models.load_model("IMC/image_captioning_model")
-    tokenizer = tokenizer.layers[1]  # Assuming the tokenizer is the second layer in the model
+    tokenizer = tf.keras.models.load_model("save_train_dir/tokenizer")
+    tokenizer = tokenizer.layers[1]
     return tokenizer
 
 # Define the CNN model (from model.py)
@@ -164,9 +163,9 @@ class ImageCaptioningModel(tf.keras.Model):
         return x
 
 # Load the model
-@st.cache_resource  # Use st.cache_resource for caching objects like models
+@st.cache(allow_output_mutation=True)
 def load_model():
-    with open("IMC/config_train.json") as json_file:
+    with open("save_train_dir/config_train.json") as json_file:
         model_config = json.load(json_file)
 
     EMBED_DIM = model_config["EMBED_DIM"]
@@ -186,7 +185,7 @@ def load_model():
     )
 
     # Load weights
-    caption_model.load_weights("IMC/weights.h5")
+    caption_model.load_weights("save_train_dir/model_weights_coco.h5")
     return caption_model
 
 # Function to read and preprocess the image (from dataset.py)
@@ -237,7 +236,7 @@ def main():
     uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
     if uploaded_file is not None:
         image = Image.open(uploaded_file)
-        st.image(image, caption='Uploaded Image.', use_container_width=True)  # Updated to use_container_width
+        st.image(image, caption='Uploaded Image.', use_column_width=True)
         st.write("")
         st.write("Generating caption...")
 
