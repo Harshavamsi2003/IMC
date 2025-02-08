@@ -13,14 +13,27 @@ EMBED_DIM = 512
 FF_DIM = 1024
 NUM_HEADS = 6
 
-# Load the tokenizer
-@st.cache_resource  # Use st.cache_resource for caching objects like models and tokenizers
+
+
+@st.cache_resource
 def load_tokenizer():
-    tokenizer = tf.keras.models.load_model("save_train_dir/tokenizer")
-    tokenizer = tokenizer.layers[1]
-    # Load the tokenizer using TFSMLayer
-    # tokenizer = tf.keras.layers.TFSMLayer("IMC/image_captioning_model", call_endpoint='serving_default')
-    return tokenizer
+    try:
+        tokenizer = tf.keras.models.load_model("IMC/image_captioning_model", compile=False)
+        tokenizer = tokenizer.layers[1]  # Ensure you're extracting the right layer
+        return tokenizer
+    except Exception as e:
+        st.error(f"Failed to load tokenizer: {str(e)}")
+        return None
+
+
+# # Load the tokenizer
+# @st.cache_resource  # Use st.cache_resource for caching objects like models and tokenizers
+# def load_tokenizer():
+#     tokenizer = tf.keras.models.load_model("save_train_dir/tokenizer")
+#     tokenizer = tokenizer.layers[1]
+#     # Load the tokenizer using TFSMLayer
+#     # tokenizer = tf.keras.layers.TFSMLayer("IMC/image_captioning_model", call_endpoint='serving_default')
+#     return tokenizer
 
 # Define the CNN model (from model.py)
 def get_cnn_model():
