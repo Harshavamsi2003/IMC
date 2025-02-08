@@ -4,6 +4,7 @@ import numpy as np
 from PIL import Image
 import json
 from tensorflow.keras import layers
+from keras.layers import TFSMLayer
 from tensorflow.keras.applications import efficientnet
 
 # Constants (from settings.py)
