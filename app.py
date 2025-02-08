@@ -18,7 +18,7 @@ NUM_HEADS = 6
 # ✅ Function to load tokenizer model
 @st.cache_resource
 def load_tokenizer():
-    model_path = "IMC/image_captioning_model"
+    model_path = "image_captioning_model"
 
     if not os.path.exists(model_path):
         st.error(f"Tokenizer model not found at {model_path}. Ensure the model exists.")
@@ -107,8 +107,8 @@ class ImageCaptioningModel(tf.keras.Model):
 # ✅ Load the image captioning model
 @st.cache_resource
 def load_model():
-    config_path = "IMC/config_train.json"
-    weights_path = "IMC/weights.h5"
+    config_path = "config_train.json"
+    weights_path = "weights.h5"
 
     if not os.path.exists(config_path) or not os.path.exists(weights_path):
         st.error(f"Missing configuration or weights file in 'IMC/'. Check your files.")
